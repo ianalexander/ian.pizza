@@ -1,0 +1,241 @@
+// Variables
+$accent:            #990033;
+$code-bg-color:     #f5f2f0;
+$small-font-size:   14px;
+$body-font-size:    18px;
+$title-font-size:   32px;
+$margins:           20px;
+$nav-height:        50px;
+$content-width:     700px;
+
+$body-font-family:  Georgia;
+$title-font-family: Helvetica;
+$code-font-family:  Menlo;
+
+$breakpoints: (
+  'small': (min-width: 320px),
+  'medium': (min-width: 768px)
+);
+
+/// Responsive breakpoint manager
+/// @access public
+/// @param {String} $breakpoint - Breakpoint
+/// @requires $breakpoints
+@mixin respond-to($breakpoint) {
+  $raw-query: map-get($breakpoints, $breakpoint);
+
+  @if $raw-query {
+    $query: if(
+      type-of($raw-query) == 'string',
+      unquote($raw-query),
+      inspect($raw-query)
+    );
+
+    @media #{$query} {
+      @content;
+    }
+  } @else {
+    @error 'No value found for `#{$breakpoint}`. '
+         + 'Please make sure it is defined in `$breakpoints` map.';
+  }
+}
+
+// HTML elements
+body {
+    //background-color: #ffa100;
+    font-family: $body-font-family;
+    margin: 0;
+    font-size: $body-font-size;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: $title-font-family;
+}
+h1 {
+    font-size: $title-font-size;
+    text-transform: uppercase;
+}
+a {
+    color: $accent;
+    text-decoration: none;
+}
+// Main areas
+#container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+#content,
+#cover,
+#footer,
+#nav {
+    //height: 100%;
+    width: 100%;
+    //border: 1px solid grey;
+}
+#cover,
+#content {
+  @include respond-to('medium') {
+    width: $content-width;
+  }
+}
+#nav {
+    // floating
+    text-align: center;
+    top: 0;
+    left: 0;
+    height: $nav-height;
+    background-color: #fff;
+    position: fixed;
+    //display: none;
+    margin: 0;
+}
+#nav {
+    font-family: $title-font-family;
+    font-size: $small-font-size;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //border-bottom: 1px dashed #000;
+}
+#nav > * {
+    // margin for items inside the nav
+    margin: 0 $margins;
+}
+#cover {
+    //height: 100vh;
+    // or
+    margin-top: ($nav-height + $margins);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    #aboveTitle,
+    #title,
+    .arrow {
+        //height: 33%;
+    }
+    #title {
+        //margin-top: 33%;
+        font-family: $title-font-family;
+        margin: 0 $margins;
+        h1 {
+          margin-bottom: 0;
+        }
+        span {
+          font-size: $small-font-size;
+        }
+    }
+    .arrow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $accent;
+    }
+    &.color {
+      background-color: $accent;
+      color: #fff;
+    }
+}
+#content {
+    // pretty first letter
+    // p:first-child:first-letter {
+    //     float: left;
+    //     color: $accent;
+    //     font-size: 75px;
+    //     line-height: 60px;
+    //     padding-top: 2px;
+    //     padding-right: 8px;
+    //     padding-left: 3px;
+    // }
+
+    // place margins on paragraphs
+    &>* {
+      padding: 0 $margins;
+    }
+
+    span.postDate {
+      font-size: $small-font-size;
+    }
+
+    .archive {
+      font-family: $title-font-family;
+    }
+
+    // blockquote
+    blockquote {
+      margin: 0;
+      padding: 0;
+      border-left: 3px solid $accent;
+      font-style: italic;
+      p {
+        padding-left: ($margins - 3);
+      }
+    }
+
+    // code
+    pre {
+      font-family: $code-font-family;
+      font-size: $small-font-size;
+      //background-color: transparentize($accent, .90);;
+      background-color: $code-bg-color;
+      padding: $margins;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    code {
+      font-size: $small-font-size;
+    }
+
+    // lists
+    ul, ol {
+      margin-left: $margins;
+      li {
+        margin-bottom: $margins / 2;
+      }
+    }
+
+    // content footer
+    .contentFooter {
+      border-top: 1px solid #ccc;
+      p {
+        font-size: $small-font-size;
+        text-align: right;
+      }
+    }
+
+    // tables
+    table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+      //border: 1px solid $code-bg-color;
+      td {
+        padding: ($margins / 3) ($margins / 2);
+        border: 1px solid $code-bg-color;
+      }
+    }
+}
+#footer {
+    font-family: $title-font-family;
+    font-size: $small-font-size;
+    text-align: center;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+// headroom
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    transform: translateY(0%);
+}
+.headroom--unpinned {
+    transform: translateY(-105%);
+}
+
+@include respond-to('medium') {
+}
