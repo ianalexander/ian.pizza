@@ -88,6 +88,26 @@ a {
     position: fixed;
     //display: none;
     margin: 0;
+
+    // items
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    .navItems {
+      height: 100%;
+      width: 100%;
+      @include respond-to('medium') {
+        width: $content-width;
+      }
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      justify-content: space-between;
+      &>* {
+        margin: 0 $margins;
+      }
+    }
 }
 #nav {
     font-family: $title-font-family;
@@ -104,7 +124,7 @@ a {
 #cover {
     //height: 100vh;
     // or
-    margin-top: ($nav-height + $margins);
+    margin-top: ($nav-height);
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -206,6 +226,7 @@ a {
 
     // tables
     table {
+      margin: 0 $margins;
       width: 100%;
       border-spacing: 0;
       border-collapse: collapse;
